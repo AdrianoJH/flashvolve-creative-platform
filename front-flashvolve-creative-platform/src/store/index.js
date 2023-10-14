@@ -31,13 +31,13 @@ export default createStore({
       } catch (error) {
         switch(error.code) {
           case 'auth/user-not-found':
-            alert("User not found")
+            alert("Usuário não encontrado!")
             break
           case 'auth/wrong-password':
-            alert("Wrong password")
+            alert("Senha incorreta")
             break
           default:
-            alert("Something went wrong")
+            alert("E-mail ou senha inválido!")
         }
 
         return

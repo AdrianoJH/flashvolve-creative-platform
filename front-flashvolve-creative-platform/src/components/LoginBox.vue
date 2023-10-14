@@ -4,10 +4,16 @@ import { useStore } from "vuex";
 
 const login_form = ref({});
 const store = useStore();
+const showPassword = ref(false);
 
 const login = () => {
   store.dispatch("login", login_form.value);
 };
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+};
+
 </script>
 
 
@@ -22,24 +28,24 @@ const login = () => {
         id="email"
         v-model="login_form.email"
       />
-      <input
-        type="password"
-        autocomplete="current-password"
-        placeholder="Senha"
-        id="password"
-        v-model="login_form.password"
-      />
+      <div class="password-container">
+        <input
+          :type="showPassword ? 'text' : 'password'"
+          autocomplete="new-password"
+          placeholder="Senha"
+          id="password"
+          v-model="login_form.password"
+        />
+        <span class="password-toggle" @click="togglePasswordVisibility">
+          <i v-if="showPassword" class="fas fa-eye-slash"></i>
+          <i v-else class="fas fa-eye"></i>
+        </span>
+      </div>
       <div class="text-box">
         <p>Esqueceu a senha?</p>
         <p @click="$router.push({ name: 'signup' })">Cadastre-se</p>
       </div>
-      <button
-        type="submit"
-        class="btn-login"
-        value="Login"
-      >
-        ENTRAR
-      </button>
+      <button type="submit" class="btn-login" value="Login">ENTRAR</button>
     </form>
   </div>
 </template>
@@ -97,6 +103,27 @@ input#password {
   background-repeat: no-repeat;
 }
 
+.password-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 50px;
+  top: 65%;
+  transform: translateY(-50%);
+  color: #7a7b84;
+  cursor: pointer;
+}
+
+.password-toggle i {
+  font-size: 18px;
+}
+
 input:focus {
   border: 2px solid #7a7b84;
   outline: none;
@@ -116,7 +143,7 @@ p {
   cursor: pointer;
 }
 
-a:hover {
+p:hover {
   color: #908fd9;
 }
 
@@ -137,7 +164,7 @@ a:hover {
   cursor: pointer;
 }
 
-.btn:hover {
+.btn-login:hover {
   background-color: #908fd9;
 }
 </style>
